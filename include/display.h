@@ -4,8 +4,17 @@
 #define MAP_WIDTH 20    // 地图宽度
 #define MAP_HEIGHT 10   // 地图高度
 
+#define MAX_ENEMIES 5
+
+typedef struct {
+    int x;
+    int y;
+    int active;
+} Enemy;
+
 typedef struct {
     char tiles[MAP_HEIGHT][MAP_WIDTH];
+    Enemy enemies[MAX_ENEMIES];
 } GameMap;
 
 // 新增地形符号定义

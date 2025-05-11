@@ -38,6 +38,7 @@ int load_map_from_file(GameMap *map, const char *filename) {
 }
 
 void init_map(GameMap *map) {
+    // 地图瓦片初始化
     if (!load_map_from_file(map, "data/maps/default.map")) {
         srand(time(NULL));
         for(int y=0; y<MAP_HEIGHT; y++) {
@@ -47,8 +48,16 @@ void init_map(GameMap *map) {
             }
         }
     }
-    // 预留SDL3纹理初始化位置
-    //map->sdl_texture = NULL;
+    
+    // 敌人生成逻辑
+    for(int i=0; i<MAX_ENEMIES; i++) {
+        do {
+            map->enemies[i].x = rand() % MAP_WIDTH;
+            map->enemies[i].y = rand() % MAP_HEIGHT;
+        } while(map->tiles[map->enemies[i].y][map->enemies[i].x] == WALL || 
+              (map->enemies[i].x == MAP_WIDTH/2 && map->enemies[i].y == MAP_HEIGHT/2));
+        map->enemies[i].active = 1;
+    }
 }
 
 void clear_screen() {

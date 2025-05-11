@@ -86,11 +86,30 @@ int main() {
                         moved = 1; // 强制刷新以响应快速按键
                     }
                     
+                    // 在移动检测逻辑后添加碰撞检测
                     if(moved) {
+                        for(int i=0; i<MAX_ENEMIES; i++) {
+                            if(world.enemies[i].active && 
+                               world.enemies[i].x == player.x && 
+                               world.enemies[i].y == player.y) {
+                                Character enemy;
+                                init_enemy(&enemy, battle_count++);
+                                battle_system(&player, &enemy);
+                                world.enemies[i].active = 0;
+                                break;
+                            }
+                        }
+                        
                         clear_screen();
                         draw_map(&world);
+                        // 绘制敌人
+                        for(int i=0; i<MAX_ENEMIES; i++) {
+                            if(world.enemies[i].active) {
+                                draw_entity(world.enemies[i].x, world.enemies[i].y, 'E');
+                            }
+                        }
                         draw_entity(player.x, player.y, '@');
-                        moved = 0; // 重置移动状态
+                        moved = 0;
                     }
                     Sleep(50); // 提高响应频率
                 }
@@ -114,3 +133,5 @@ int main() {
     printf("\n后会有期！\n");
     return 0;
 }
+
+// 删除main.c中的init_map函数实现
