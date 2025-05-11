@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <conio.h>
 #include "../include/character.h"
 #include "../include/combat.h"
 #include <windows.h>
@@ -34,17 +35,68 @@ int main() {
         draw_entity(player.x, player.y, '@');
         Sleep(100);
 
-        printf("\n===== 武侠世界 =====\n");
-        printf("1. 闯荡江湖\n2. 查看状态\n3. 退出游戏\n请选择：");
+        printf("\n\n===== 武侠世界 =====\n");
+        printf("1. 闯荡江湖\n2. 查看状态\n3. 地图移动\n4. 退出游戏\n请选择：");
         if(scanf("%d", &choice) != 1) {
             while(getchar() != '\n');
             choice = -1;
         }
         while(getchar() != '\n');
 
-        if(choice == 3) break;
+        if(choice == 4) break;
 
         switch(choice) {
+            case 3: {
+                printf("进入地图移动模式（按回车退出）\n");
+                while(1) {
+                    int moved = 0;
+                    if(_kbhit()) {
+                        int ch = _getch();
+                        if(ch == '\r') break;
+                        
+                        if(ch == 0 || ch == 0xE0) {
+                            ch = _getch();
+                            switch(ch) {
+                                case 72: // 上
+                                    if(player.y > 0 && world.tiles[player.y-1][player.x] != WALL) {
+                                        player.y--;
+                                        moved = 1;
+                                    }
+                                    break;
+                                case 80: // 下
+                                    if(player.y < MAP_HEIGHT-1 && world.tiles[player.y+1][player.x] != WALL) {
+                                        player.y++;
+                                        moved = 1;
+                                    }
+                                    break;
+                                case 75: // 左
+                                    if(player.x > 0 && world.tiles[player.y][player.x-1] != WALL) {
+                                        player.x--;
+                                        moved = 1;
+                                    }
+                                    break;
+                                case 77: // 右
+                                    if(player.x < MAP_WIDTH-1 && world.tiles[player.y][player.x+1] != WALL) {
+                                        player.x++;
+                                        moved = 1;
+                                    }
+                                    break;
+                            }
+                        }
+                        moved = 1; // 强制刷新以响应快速按键
+                    }
+                    
+                    if(moved) {
+                        clear_screen();
+                        draw_map(&world);
+                        draw_entity(player.x, player.y, '@');
+                        moved = 0; // 重置移动状态
+                    }
+                    Sleep(50); // 提高响应频率
+                }
+                fflush(stdin);
+                break;
+            }
             case 1: {
                 battle_count++;
                 Character enemy;
