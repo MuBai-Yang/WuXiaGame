@@ -1,6 +1,6 @@
-#include <stdio.h>  // 标准C输入输出
-#include <stdlib.h> // 内存管理
-#include <time.h>   // 时间函数
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "display.h"
 
 void draw_map(const GameMap *map) {  // 实现
@@ -18,6 +18,11 @@ void draw_entity(int x, int y, char symbol) {
     fflush(stdout);
 }
 
+/**
+ * 初始化随机地图（草地70%、墙壁20%、水域10%）
+ * @param map 地图指针
+ * @warning 需提前调用srand初始化随机种子
+ */
 void init_map(GameMap *map) {
     srand(time(NULL));
     for(int y=0; y<MAP_HEIGHT; y++) {

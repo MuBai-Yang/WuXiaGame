@@ -5,10 +5,22 @@
 #include <time.h>
 #include <windows.h>
 
+/**
+ * 决定战斗出手顺序
+ * @param player_speed 玩家角色速度值
+ * @param enemy_speed 敌人速度值
+ * @return 1-玩家先手 0-敌人先手
+ */
 int determine_order(int player_speed, int enemy_speed) {
     return player_speed >= enemy_speed ? 1 : 0;
 }
 
+/**
+ * 计算战斗伤害值（攻击-防御/2，最小伤害1点）
+ * @param attacker 攻击方角色指针
+ * @param defender 防御方角色指针
+ * @return 计算后的伤害值
+ */
 int calculate_damage(Character *attacker, Character *defender) {
     int damage = attacker->attack - (defender->defense / 2);
     return damage > 0 ? damage : 1;
@@ -36,4 +48,3 @@ void battle_system(Character *player, Character *enemy) {
     }
 }
 
-// 删除以下所有重复的calculate_damage函数定义

@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <time.h>
-// 假设 character.h 文件在 include 目录下，根据错误提示修改包含路径
 #include "../include/character.h"
-// 尝试修正头文件包含路径，可能 combat.h 文件在其他目录，这里假设在当前目录下
-// 假设 combat.h 文件在 include 目录下，更新包含路径
 #include "../include/combat.h"
 #include <windows.h>
 #include "../include/display.h"
 
-// 模块化后的主程序入口
-
+/**
+ * 游戏主循环模块
+ * @note 包含地图渲染、菜单交互和战斗触发
+ * 使用Windows控制台API进行编码配置
+ */
 int main() {
     SetConsoleOutputCP(65001);
     srand(time(NULL));
